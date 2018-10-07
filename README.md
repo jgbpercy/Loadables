@@ -10,7 +10,7 @@ Work in progress.
 
 Aside from error and complete notifications, RxJS has no opinion about the nature or importance of each value passed from an observable to an observer. That is, of course, a very good thing for a general library! However, when a value is loaded (and potentially reloaded) asynchronously, it can be advantageous to treat notifications that the value is loading differently to notifications that a loaded value has arrived. Having to create two separate observables that track each of these concepts can also be cumbersome. Loadables for RxJS is intended to address that awkwardness.
 
-Also, I made this in order to learn how to create and publish an TypeScript npm package :)
+Also, I made this in order to learn how to create and publish a TypeScript npm package :)
 
 ### How?
 
