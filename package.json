@@ -1,0 +1,46 @@
+{
+  "name": "rxjs-loadables",
+  "version": "0.0.1",
+  "description": "A simple rxjs abstraction to represent values that can be loaded and reloaded asynchronously",
+  "main": "public_api.js",
+  "scripts": {
+    "test": "test",
+    "build-cjs": "tsc -p tsconfig-dist-cjs.json",
+    "build-esm5": "tsc -p tsconfig-dist-esm5.json",
+    "build-esm2015": "tsc -p tsconfig-dist-esm2015.json",
+    "clean": "rimraf dist && rimraf bundles/loadables.* && mkdirp bundles",
+    "copy-to-dist": "node copy-package-json-for-dist.js && cpy bundles/rxjs-loadables.* dist/bundles/ && cpy CHANGELOG.md LICENSE README.md dist/",
+    "bundle": "webpack --config webpack.config.js && webpack --config webpack.config.js --env.production",
+    "build": "npm run clean && npm run build-cjs && npm run build-esm2015 && npm run build-esm5 && npm run bundle",
+    "dist": "npm run build && npm run copy-to-dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgbpercy/Loadables.git"
+  },
+  "keywords": [
+    "rxjs"
+  ],
+  "author": "Joe Percy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jgbpercy/Loadables/issues"
+  },
+  "homepage": "https://github.com/jgbpercy/Loadables#readme",
+  "devDependencies": {
+    "cpy-cli": "2.0.0",
+    "mkdirp": "0.5.1",
+    "rimraf": "2.6.2",
+    "rxjs": "^6.0.0",
+    "ts-loader": "5.2.1",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2",
+    "webpack": "4.20.2",
+    "webpack-cli": "3.1.2",
+    "webpack-rxjs-externals": "2.0.0"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "typescriptHero.imports.grouping": [
+    "/rxjs/",
+    "Modules",
+    "Plains",
+    "Workspace",
+    "Remaining"
+  ],
+  "typescriptHero.imports.multiLineWrapThreshold": 100,
+  "typescriptHero.imports.organizeOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}
