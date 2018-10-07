@@ -5,5 +5,5 @@
   "module": "./esm5/index.js",
   "private": false,
   "scripts": {},
-  "types": "./index.d.ts"
+  "types": "./public_api.d.ts"
 }
