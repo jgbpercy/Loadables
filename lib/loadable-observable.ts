@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, OperatorFunction } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 
 import { isLoaded, Loadable } from './loadable';
@@ -130,5 +130,86 @@ export class LoadableObservable<TData> {
 
   public static ofLoaded<TData>(...array: TData[]): LoadableObservable<TData> {
     return LoadableObservable.ofLoadedObservable(of(...array));
+  }
+
+  public pipe(): LoadableObservable<TData>;
+  public pipe<A>(op1: OperatorFunction<Loadable<TData>, Loadable<A>>): LoadableObservable<A>;
+  public pipe<A, B>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+  ): LoadableObservable<B>;
+  public pipe<A, B, C>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+  ): LoadableObservable<C>;
+  public pipe<A, B, C, D>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+  ): LoadableObservable<D>;
+  public pipe<A, B, C, D, E>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+  ): LoadableObservable<E>;
+  public pipe<A, B, C, D, E, F>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+    op6?: OperatorFunction<Loadable<E>, Loadable<F>>,
+  ): LoadableObservable<F>;
+  public pipe<A, B, C, D, E, F, G>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+    op6?: OperatorFunction<Loadable<E>, Loadable<F>>,
+    op7?: OperatorFunction<Loadable<F>, Loadable<G>>,
+  ): LoadableObservable<G>;
+  public pipe<A, B, C, D, E, F, G, H>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+    op6?: OperatorFunction<Loadable<E>, Loadable<F>>,
+    op7?: OperatorFunction<Loadable<F>, Loadable<G>>,
+    op8?: OperatorFunction<Loadable<G>, Loadable<H>>,
+  ): LoadableObservable<H>;
+  public pipe<A, B, C, D, E, F, G, H, I>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+    op6?: OperatorFunction<Loadable<E>, Loadable<F>>,
+    op7?: OperatorFunction<Loadable<F>, Loadable<G>>,
+    op8?: OperatorFunction<Loadable<G>, Loadable<H>>,
+    op9?: OperatorFunction<Loadable<H>, Loadable<I>>,
+  ): LoadableObservable<I>;
+  public pipe<A, B, C, D, E, F, G, H, I>(
+    op1?: OperatorFunction<Loadable<TData>, Loadable<A>>,
+    op2?: OperatorFunction<Loadable<A>, Loadable<B>>,
+    op3?: OperatorFunction<Loadable<B>, Loadable<C>>,
+    op4?: OperatorFunction<Loadable<C>, Loadable<D>>,
+    op5?: OperatorFunction<Loadable<D>, Loadable<E>>,
+    op6?: OperatorFunction<Loadable<E>, Loadable<F>>,
+    op7?: OperatorFunction<Loadable<F>, Loadable<G>>,
+    op8?: OperatorFunction<Loadable<G>, Loadable<H>>,
+    op9?: OperatorFunction<Loadable<H>, Loadable<I>>,
+    ...operations: OperatorFunction<Loadable<any>, Loadable<any>>[]
+  ): LoadableObservable<{}>;
+
+  public pipe(
+    ...operations: OperatorFunction<Loadable<any>, Loadable<any>>[]
+  ): LoadableObservable<any> {
+    return new LoadableObservable((this.fullObservable as any).pipe(...operations));
   }
 }
