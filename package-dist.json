@@ -1,8 +1,8 @@
 {
   "devDependencies": {},
-  "es2015": "./esm2015/index.js",
+  "es2015": "./esm2015/public_api.js",
   "main": "./public_api.js",
-  "module": "./esm5/index.js",
+  "module": "./esm5/public_api.js",
   "private": false,
   "scripts": {},
   "types": "./public_api.d.ts"
