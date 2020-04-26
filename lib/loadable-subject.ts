@@ -46,9 +46,9 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
     let subject: BehaviorSubject<Loadable<TData>>;
 
     if (initialData === undefined) {
-      subject = new BehaviorSubject<Loadable<TData>>(Loadable.loading());
+      subject = new BehaviorSubject<Loadable<TData>>({ loaded: false });
     } else {
-      subject = new BehaviorSubject<Loadable<TData>>(Loadable.loaded(initialData));
+      subject = new BehaviorSubject<Loadable<TData>>({ loaded: true, data: initialData });
     }
 
     super(subject);
@@ -60,7 +60,7 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
    * Indicate to consumers that the loabable value is now loading.
    */
   public setLoading(): void {
-    this._subject.next(Loadable.loading());
+    this._subject.next({ loaded: false });
   }
 
   /**
@@ -68,7 +68,7 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
    * @param data The new value.
    */
   public next(data: TData): void {
-    this._subject.next(Loadable.loaded(data));
+    this._subject.next({ loaded: true, data });
   }
 
   public error(error: any): void {
@@ -95,8 +95,8 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
     this.setLoading();
 
     observable.pipe(first()).subscribe({
-      next: res => this.next(res),
-      error: err => this.error(err),
+      next: (res) => this.next(res),
+      error: (err) => this.error(err),
     });
   }
 }

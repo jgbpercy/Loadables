@@ -10,9 +10,9 @@ export function ldMap<T, R>(
     source.pipe(
       map((loadableValue, index) => {
         if (!isLoaded(loadableValue)) {
-          return Loadable.loading<R>();
+          return { loaded: false };
         } else {
-          return Loadable.loaded(project(loadableValue.data, index));
+          return { loaded: true, data: project(loadableValue.data, index) };
         }
       }),
     );

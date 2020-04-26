@@ -3,7 +3,7 @@ import { isArray } from 'rxjs/internal/util/isArray';
 import { isScheduler } from 'rxjs/internal/util/isScheduler';
 import { map } from 'rxjs/operators';
 
-import { isLoaded, Loadable } from '../loadable';
+import { isLoaded, Loadable, areLoaded } from '../loadable';
 import { LoadableObservable } from '../loadable-observable';
 
 export function ldCombineLatest<T, T2>(
@@ -69,7 +69,7 @@ export function ldCombineLatest(
   }
 
   const fullObservables = (loadableObservables as LoadableObservable<any>[]).map(
-    lo => lo.fullObservable,
+    (lo) => lo.fullObservable,
   );
   let combinedObservables: Observable<Loadable<any>[]>;
   if (scheduler) {
@@ -80,11 +80,11 @@ export function ldCombineLatest(
 
   return new LoadableObservable(
     combinedObservables.pipe(
-      map(loadables => {
-        if (loadables.some(loadable => !isLoaded(loadable))) {
-          return Loadable.loading<any>();
+      map((loadables) => {
+        if (areLoaded(loadables)) {
+          return { loaded: true, data: loadables.map((x) => x.data) };
         } else {
-          return Loadable.loaded(loadables.map(x => x.data));
+          return { loaded: false };
         }
       }),
     ),

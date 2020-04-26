@@ -1,6 +1,6 @@
 /**
  * @license Use of this source code is governed by an MIT-style license that
- * can be found in the LICENSE file at https://github.com/cartant/rxjs-etc
+ * can be found in the LICENSE file at https://github.com/jgbpercy/Loadables/blob/master/LICENSE
  */
 
 // Credit Nicholas Jamieson https://github.com/cartant/rxjs-etc/blob/master/scripts/pack.js
