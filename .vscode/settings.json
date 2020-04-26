@@ -9,10 +9,5 @@
     "Workspace",
     "Remaining"
   ],
-  "typescriptHero.imports.multiLineWrapThreshold": 100,
-  "typescriptHero.imports.organizeOnSave": true,
-  "[typescript]": {
-    "editor.formatOnSave": true
-  },
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

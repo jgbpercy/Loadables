@@ -1,5 +1,5 @@
-import { Observable, OperatorFunction, Subject, of, defer, ConnectableObservable } from 'rxjs';
-import { filter, first, map, share, shareReplay, multicast, publish } from 'rxjs/operators';
+import { ConnectableObservable, defer, Observable, OperatorFunction } from 'rxjs';
+import { filter, first, map, publish, share } from 'rxjs/operators';
 import { isLoaded, Loadable } from './loadable';
 
 /**
@@ -9,28 +9,28 @@ import { isLoaded, Loadable } from './loadable';
  * A LoadableObservable is intended for use by classes that consume the loadable value, for example
  * Angular Components.
  *
- * LoadableObservables can be constructed directly by passing an Observable<Loadable<TData>> but
+ * LoadableObservables can be constructed directly by passing an `Observable<Loadable<TData>>` but
  * they are more commonly constructed within a Service as a private LoadableSubject. The Service
- * publicly exposes the LoadableSubject as a LoabableObservable.
+ * publicly exposes the `LoadableSubject` as a `LoabableObservable`.
  *
- * A component that consumes a LoadableObservable might look like this:
-
-``` typescript
-@Component({
-  template: `
-    <app-loading *ngIf="!(loaded | async)"></app-loading>
-
-    <ng-container *ngIf="loaded | async">
-      <p>{{ (entity | async)!.name }}
-    </ng-container>
-  `
-})
-export class SimpleComponent {
-  readonly loaded = this.dataService.entity.loaded;
-  readonly entity = this.dataService.entity.data;
-
-  constructor(private readonly dataService: DataService) {}
-}
+ * A component that consumes a `LoadableObservable` might look like this:
+ *
+ * ``` typescript
+ * @Component({
+ *   template: `
+ *     <app-loading *ngIf="!(loaded | async)"></app-loading>
+ *
+ *     <ng-container *ngIf="loaded | async">
+ *       <p>{{ (entity | async)!.name }}
+ *     </ng-container>
+ *   `
+ * })
+ * export class SimpleComponent {
+ *   readonly loaded = this.dataService.entity.loaded;
+ *   readonly entity = this.dataService.entity.data;
+ *
+ *   constructor(private readonly dataService: DataService) {}
+ * }
 ```
  */
 export class LoadableObservable<TData> {
@@ -69,26 +69,36 @@ export class LoadableObservable<TData> {
   public readonly firstDataExpectLoaded: Observable<TData>;
 
   /**
-   * Create a new LodableObservable<TData> by passing an Observable<Loadable<TData>>.
+   * Create a new `LodableObservable<TData>` by passing an `Observable<Loadable<TData>>`.
    *
-   * By default, * the subscription to this source observable will be reference counted, meaning
-   * that it will be unsubscribed when there are no subscribers to any of the observable properties
-   * on the loadable observable. This is appropriate when the source is subject-based, and may not
-   * complete.
+   * IMPORTANT: You need to know which type of Observable you are passing. You can pass either:
+   * - A multicast, potentially infinite Observable - E.g., a `Subject`, or an Observable
+   * where you have used a multicasting operator like `share`. In this case, pass `true` to
+   * `sourceIsMulticast`.
+   * - A non-multicast Observable which must complete - I.e. pretty much anything that isn't
+   * a Subject and hasn't had a multicasting operator like `shared` used on it. In this case,
+   * pass `false` to `sourceIsMulticast`.
    *
-   * By passing false to the refCount argument,
+   * If you're not sure, then avoid creating `LoadableObservable`s directly. It's easier to use
+   * `LoadableSubject`s.
+   *
+   * If `sourceIsMulticast` is `true`, then subscribing to each LoadableObservable property will
+   * create a new subscription to the source, so if the source is not actually multicast, then
+   * the results from different properties will not be in sync.
+   *
+   * If `sourceIsMulticast` is `false`, then the LoadableObservable constructor will set up a
+   * single subscription to the source and multicast this. This means that if the source does
+   * not complete, then this subscription will leak memory.
    */
-  constructor(ofObservable: Observable<Loadable<TData>>, refCount = true) {
-    if (refCount) {
-      this.fullObservable = ofObservable.pipe(share());
+  constructor(source: Observable<Loadable<TData>>, sourceIsMulticast: boolean) {
+    if (sourceIsMulticast) {
+      this.fullObservable = source;
     } else {
       let multicastObservable: ConnectableObservable<Loadable<TData>> | undefined;
 
       this.fullObservable = defer(() => {
         if (!multicastObservable) {
-          multicastObservable = ofObservable.pipe(publish()) as ConnectableObservable<
-            Loadable<TData>
-          >;
+          multicastObservable = source.pipe(publish()) as ConnectableObservable<Loadable<TData>>;
           multicastObservable.connect();
         }
 
@@ -201,6 +211,6 @@ export class LoadableObservable<TData> {
   public pipe(
     ...operations: OperatorFunction<Loadable<any>, Loadable<any>>[]
   ): LoadableObservable<any> {
-    return new LoadableObservable((this.fullObservable as any).pipe(...operations));
+    return new LoadableObservable((this.fullObservable as any).pipe(...operations), true);
   }
 }

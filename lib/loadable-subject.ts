@@ -1,20 +1,19 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-
 import { Loadable } from './loadable';
 import { LoadableObservable } from './loadable-observable';
 
 /**
- * Class representing the state over time of a loadable, i.e. a value that can be loaded and
+ * Class representing the state over time of a `Loadable`, i.e. a value that can be loaded and
  * reloaded by some asynchronous process (most likely an http call).
  *
- * A LoadableSubject is intended for use by the code that manages the value, for example an
+ * A `LoadableSubject` is intended for use by the code that manages the value, for example an
  * Angular data service that fetches data about an entity based on the current entity id for which
- * the application wants to display data. LoadableSubject inherits from LoadableObservable, which
+ * the application wants to display data. `LoadableSubject` inherits from LoadableObservable, which
  * exposes the properties that consumers of the value require.
  *
- * Construct this class with a data argument in order for it to initialized loaded, or without one
- * in order for it to be initialized loading.
+ * Construct this class with an `initialData` argument in order for it to initialized loaded, or without
+ * one in order for it to be initialized loading.
  *
  * A typical simple data service might look like this:
 
@@ -51,7 +50,7 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
       subject = new BehaviorSubject<Loadable<TData>>({ loaded: true, data: initialData });
     }
 
-    super(subject);
+    super(subject, true);
 
     this._subject = subject;
   }

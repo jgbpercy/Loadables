@@ -9,10 +9,6 @@
     "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {},
-    "typeRoots": [],
-    "types": [],
-    "esModuleInterop": true,
+    "esModuleInterop": true
   }
 }

@@ -4,7 +4,7 @@
   "description": "A simple rxjs abstraction to represent values that can be loaded and reloaded asynchronously",
   "main": "public_api.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "build-cjs": "tsc -p tsconfig-dist-cjs.json",
     "build-esm5": "tsc -p tsconfig-dist-esm5.json",
     "build-esm2015": "tsc -p tsconfig-dist-esm2015.json",
@@ -28,10 +28,13 @@
   },
   "homepage": "https://github.com/jgbpercy/Loadables#readme",
   "devDependencies": {
+    "@types/jest": "25.2.1",
     "cpy-cli": "3.1.0",
+    "jest": "25.4.0",
     "mkdirp": "1.0.4",
     "rimraf": "3.0.2",
     "rxjs": "6.5.5",
+    "ts-jest": "25.4.0",
     "ts-loader": "6.2.2",
     "tslint": "6.1.1",
     "typescript": "3.8.3",
