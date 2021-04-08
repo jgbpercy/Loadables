@@ -1,6 +1,7 @@
 import { Observable, OperatorFunction } from 'rxjs';
-import { filter, first, map, share } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { isLoaded, Loadable } from './loadable';
+import { refCountedShareLatest } from './utils/ref-counted-share-latest';
 
 /**
  * Represents the state over time of a loadable, i.e. a value that can be loaded and reloaded by
@@ -84,12 +85,12 @@ export class LoadableObservable<TData> {
     this.data = this.fullObservable.pipe(
       filter(isLoaded),
       map((loadable) => loadable.data),
-      share(),
+      refCountedShareLatest(),
     );
 
     this.loaded = this.fullObservable.pipe(
       map((loadable) => loadable.loaded),
-      share(),
+      refCountedShareLatest(),
     );
 
     this.firstData = this.data.pipe(first());

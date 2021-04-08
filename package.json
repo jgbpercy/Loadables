@@ -1,6 +1,6 @@
 {
   "name": "rxjs-loadables",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "A simple rxjs abstraction to represent values that can be loaded and reloaded asynchronously",
   "main": "public_api.js",
   "scripts": {
