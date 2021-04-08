@@ -1,7 +1,5 @@
 {
   "compilerOptions": {},
-  "exclude": [
-    "source/**/*.spec.ts"
-  ],
+  "exclude": ["source/**/*.spec.ts"],
   "extends": "./tsconfig.json"
 }

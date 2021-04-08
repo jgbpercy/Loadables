@@ -1,5 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { Loadable } from './loadable';
 import { LoadableObservable } from './loadable-observable';
 
@@ -50,7 +49,7 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
       subject = new BehaviorSubject<Loadable<TData>>({ loaded: true, data: initialData });
     }
 
-    super(subject, true);
+    super(subject);
 
     this._subject = subject;
   }
@@ -58,7 +57,7 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
   /**
    * Indicate to consumers that the loabable value is now loading.
    */
-  public setLoading(): void {
+  setLoading(): void {
     this._subject.next({ loaded: false });
   }
 
@@ -66,36 +65,16 @@ export class LoadableSubject<TData> extends LoadableObservable<TData> {
    * Indicate to consumers that the loadable value is now loaded.
    * @param data The new value.
    */
-  public next(data: TData): void {
+  next(data: TData): void {
     this._subject.next({ loaded: true, data });
   }
 
-  public error(error: any): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+  error(error: any): void {
     this._subject.error(error);
   }
 
-  public complete(): void {
+  complete(): void {
     this._subject.complete();
-  }
-
-  /**
-   * A simple way to tie the loading state and next value of the LoadableSubject to a passed
-   * Observable (not allowing for anything else you do to it in the meantime!).
-   *
-   * In detail: Sets the LoadableSubject loading until the passed Observable emits, at which time
-   * the LoadableSubject will emit the value emitted by the passed Observable. The LoadableSubject
-   * will then unsubscribe from the passed observable and any further values will be ignored. If
-   * the passed observable errors before it emits, then the error will be emitted from the
-   * LoadableSubject.
-   *
-   * @param observable The Observable to subscribe to.
-   */
-  public loadOn<T extends TData>(observable: Observable<T>): void {
-    this.setLoading();
-
-    observable.pipe(first()).subscribe({
-      next: (res) => this.next(res),
-      error: (err) => this.error(err),
-    });
   }
 }

@@ -1,7 +1,6 @@
 import { from, Observable, ObservableInput, of, OperatorFunction } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
-import { isLoaded, Loadable } from '../loadable';
+import { Loadable } from '../loadable';
 
 export function ldSwitchMap<T, I>(
   project: (dataValue: T, index: number) => ObservableInput<Loadable<I>>,
@@ -9,8 +8,8 @@ export function ldSwitchMap<T, I>(
   return (source: Observable<Loadable<T>>) =>
     source.pipe(
       switchMap((loadableValue, index) => {
-        if (!isLoaded(loadableValue)) {
-          return of(Loadable.loading<I>());
+        if (!loadableValue.loaded) {
+          return of(loadableValue);
         } else {
           return from(project(loadableValue.data, index));
         }

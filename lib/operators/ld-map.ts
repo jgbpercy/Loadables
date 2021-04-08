@@ -1,7 +1,6 @@
 import { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { isLoaded, Loadable } from '../loadable';
+import { Loadable } from '../loadable';
 
 export function ldMap<T, R>(
   project: (value: T, index: number) => R,
@@ -9,7 +8,7 @@ export function ldMap<T, R>(
   return (source: Observable<Loadable<T>>) =>
     source.pipe(
       map((loadableValue, index) => {
-        if (!isLoaded(loadableValue)) {
+        if (!loadableValue.loaded) {
           return { loaded: false };
         } else {
           return { loaded: true, data: project(loadableValue.data, index) };

@@ -1,17 +1,11 @@
 import { TestScheduler } from 'rxjs/testing';
 import { Loadable } from '../lib/loadable';
 
-export interface LoadableValueMap {
-  [key: string]: Loadable<string>;
-}
+export type LoadableValueMap = Record<string, Loadable<string>>;
 
-export interface LoadedValueMap {
-  [key: string]: boolean;
-}
+export type LoadedValueMap = Record<string, boolean>;
 
-export interface DataValueMap {
-  [key: string]: string;
-}
+export type DataValueMap = Record<string, string>;
 
 export function getTestScheduler(): TestScheduler {
   return new TestScheduler((actual, expected) => {
