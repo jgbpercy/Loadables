@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "module": "esnext",
     "outDir": "dist/esm",
     "target": "esnext"
