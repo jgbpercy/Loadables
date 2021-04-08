@@ -1,6 +1,6 @@
 {
   "devDependencies": {},
-  "main": "./cjs/public_api.js",
+  "main": "./bundles/rxjs-loadables.umd.js",
   "module": "./esm/public_api.js",
   "private": false,
   "scripts": {},
