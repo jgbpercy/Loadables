@@ -187,7 +187,7 @@ export class LoadableObservable<TData> {
   pipe(
     ...operations: OperatorFunction<Loadable<unknown>, Loadable<unknown>>[]
   ): LoadableObservable<unknown> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
     return new LoadableObservable((this.fullObservable as any).pipe(...operations));
   }
 }
