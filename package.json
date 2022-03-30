@@ -1,17 +1,16 @@
 {
   "name": "rxjs-loadables",
-  "version": "0.1.0-rc.3",
+  "version": "2.0.0-rc.0",
   "description": "A simple rxjs abstraction to represent values that can be loaded and reloaded asynchronously",
   "main": "public_api.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "build-cjs": "tsc -p tsconfig-dist-cjs.json",
-    "build-esm5": "tsc -p tsconfig-dist-esm5.json",
-    "build-esm2015": "tsc -p tsconfig-dist-esm2015.json",
+    "build-esm": "tsc -p tsconfig-dist-esm.json",
     "clean": "rimraf dist && rimraf bundles/loadables.* && mkdirp bundles",
     "copy-to-dist": "node copy-package-json-for-dist.js && cpy bundles/rxjs-loadables.* dist/bundles/ && cpy CHANGELOG.md LICENSE README.md dist/",
-    "bundle": "webpack --config webpack.config.js && webpack --config webpack.config.js --env.production",
-    "build": "npm run clean && npm run build-cjs && npm run build-esm2015 && npm run build-esm5 && npm run bundle",
+    "bundle": "webpack --config webpack.config.js && webpack --config webpack.config.js --env production",
+    "build": "npm run clean && npm run build-cjs && npm run build-esm && npm run bundle",
     "dist": "npm run build && npm run copy-to-dist"
   },
   "repository": {
@@ -28,19 +27,27 @@
   },
   "homepage": "https://github.com/jgbpercy/Loadables#readme",
   "devDependencies": {
-    "cpy-cli": "2.0.0",
-    "mkdirp": "0.5.1",
-    "rimraf": "2.6.2",
-    "rxjs": "^6.3.3",
-    "ts-loader": "5.2.1",
-    "tslint": "5.11.0",
-    "typescript": "2.9.2",
-    "webpack": "4.20.2",
-    "webpack-cli": "3.1.2",
+    "@types/jest": "27.4.1",
+    "@typescript-eslint/eslint-plugin": "5.17.0",
+    "@typescript-eslint/parser": "5.17.0",
+    "cpy-cli": "4.1.0",
+    "eslint": "8.12.0",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-jsdoc": "38.1.4",
+    "eslint-plugin-no-null": "1.0.2",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "jest": "27.5.1",
+    "mkdirp": "1.0.4",
+    "rimraf": "3.0.2",
+    "rxjs": "7.5.5",
+    "ts-jest": "27.1.4",
+    "ts-loader": "9.2.8",
+    "typescript": "4.6.3",
+    "webpack": "5.70.0",
+    "webpack-cli": "4.9.2",
     "webpack-rxjs-externals": "2.0.0"
   },
-  "dependencies": {},
   "peerDependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.5.5"
   }
 }

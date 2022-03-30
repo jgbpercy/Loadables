@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "declaration": false,
-    "module": "commonjs",
-    "outDir": "dist/cjs",
+    "declaration": true,
+    "module": "esnext",
+    "outDir": "dist/esm",
     "target": "esnext"
   },
   "extends": "./tsconfig-dist.json"
